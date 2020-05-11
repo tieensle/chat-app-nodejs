@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "../Auth/Auth.css";
+// import "./Auth.css";
 
 const Login = () => {
   return (
