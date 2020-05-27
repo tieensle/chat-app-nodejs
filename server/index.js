@@ -18,6 +18,8 @@ require("dotenv").config();
 //middleware
 app.get("/", (req, res) => {
   res.send("server is running!");
+  const passport = require("passport");
+  console.log(passport.authenticate("local"));
 });
 app.use(passport.initialize());
 require("./config/passport.js")(passport);

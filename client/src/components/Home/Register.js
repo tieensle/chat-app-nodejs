@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import { Form, Button } from "react-bootstrap";
+import Header from "../layout/Header";
 const Register = (props) => {
   return (
     <div>
+      <Header />
       <Form>
         <Form.Group>
           <Form.Label>*Username</Form.Label>
@@ -24,9 +26,9 @@ const Register = (props) => {
         </Form.Group>
         <Button type="submit">Register</Button>
       </Form>
-      <Button variant="secondary" onClick={() => props.changeView("register")}>
-        Back To Login
-      </Button>
+      <Link to="/login">
+        <Button variant="secondary">Back To Login</Button>
+      </Link>
     </div>
   );
 };

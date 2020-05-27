@@ -20,7 +20,6 @@ router.post("/register", (req, res) => {
   if (!isValid) {
     return res.status(404).json(errors);
   }
-
   User.findOne({ email: email }).then((user) => {
     if (user) {
       res.status(400).json({ email: "Email already exists" });
@@ -31,6 +30,7 @@ router.post("/register", (req, res) => {
         password,
       });
 
+      // generate salt and hash on separate function call
       bcrypt.genSalt(10, (err, salt) => {
         bcrypt.hash(newUser.password, salt, (err, hash) => {
           if (err) throw err;

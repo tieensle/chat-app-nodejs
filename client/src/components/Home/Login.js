@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 // import "./Auth.css";
+import Header from "../layout/Header";
 
 const Login = (props) => {
   return (
     <div>
+      <Header />
       <Form>
         <Form.Group>
           <Form.Label>*Email</Form.Label>
@@ -19,11 +21,9 @@ const Login = (props) => {
           Login
         </Button>
       </Form>
-      {/* <Link to="/register"> */}
-      <Button variant="secondary" onClick={() => props.changeView("register")}>
-        New Member?
-      </Button>
-      {/* </Link> */}
+      <Link to="/register">
+        <Button variant="secondary">New Member?</Button>
+      </Link>
     </div>
   );
 };
