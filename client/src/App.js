@@ -1,13 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Login from "./components/auth/Login.js";
-import Signup from "./components/auth/Register.js";
+import Login from "./components/Home/Login.js";
+import Register from "./components/Home/Register.js";
+import Home from "./components/Home/Home.js";
+import Chat from "./components/Chat.js";
 const App = () => {
   return (
     <Router>
-      <Route path="/" exact component={Login} />
-      <Route path="/signup" component={Signup} />
+      <Route path="/" exact component={Home} />
+      <Route path="/chat" component={Chat} />
     </Router>
   );
 };
