@@ -16,13 +16,14 @@ const User = require("../../models/Users.js");
 
 router.post("/register", (req, res) => {
   const { name, email, password, password2 } = req.body;
+  console.log(req.body);
   const { errors, isValid } = validateRegisterInput(req.body);
   if (!isValid) {
     return res.status(404).json(errors);
   }
   User.findOne({ email: email }).then((user) => {
     if (user) {
-      res.status(400).json({ email: "Email already exists" });
+      return res.status(400).json({ email: "Email already exists" });
     } else {
       const newUser = new User({
         name,
@@ -52,18 +53,14 @@ router.post("/register", (req, res) => {
 // If successful, append the token to a Bearer string (remember in our passport.js file, we setopts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();)
 
 router.post("/login", (req, res) => {
-  console.log("test");
   const { errors, isValid } = validateLoginInput(req.body);
-  console.log(isValid);
-
   if (!isValid) {
-    res.status(404).json(errors);
+    return res.status(404).json(errors);
   }
-
-  const { email, name, password, password1 } = req.body;
+  const { email, password } = req.body;
   User.findOne({ email }).then((user) => {
     if (!user) {
-      res.status(400).json({ emailNotFound: `User hasn't existed` });
+      return res.status(400).json({ emailNotFound: `User hasn't existed` });
     }
     bcrypt.compare(password, user.password).then((isMatch) => {
       if (isMatch) {
@@ -80,7 +77,7 @@ router.post("/login", (req, res) => {
           (err, token) => {
             res.json({
               success: true,
-              token: "Bearer" + token,
+              token: "Bearer " + token,
             });
           }
         );

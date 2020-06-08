@@ -1,8 +1,10 @@
+//@ts-nocheck
 const express = require("express");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const app = express();
 
@@ -12,8 +14,13 @@ const PORT = process.env.PORT || 1337;
 
 //built-in middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 require("dotenv").config();
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN,
+  })
+);
 
 //middleware
 app.get("/", (req, res) => {

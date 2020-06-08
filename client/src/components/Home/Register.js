@@ -1,33 +1,62 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 import io from "socket.io-client";
 import { Form, Button } from "react-bootstrap";
 import Header from "../layout/Header";
 const Register = (props) => {
+  const { handleSubmit, register } = useForm();
+  const onSubmitRegister = (data) => {
+    console.log(data);
+  };
   return (
     <div>
       <Header />
-      <Form>
-        <Form.Group>
-          <Form.Label>*Username</Form.Label>
-          <Form.Control type="text" placeholder="Enter username" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>*Email</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>*Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>*Confirm Password</Form.Label>
-          <Form.Control type="password" placeholder="Confirm Password" />
-        </Form.Group>
-        <Button type="submit">Register</Button>
-      </Form>
+      <form className="register-form" onSubmit={handleSubmit(onSubmitRegister)}>
+        <div className="form-group">
+          <label htmlFor="name">Username</label>
+          <input
+            name="name"
+            className="form-control"
+            type="text"
+            placeholder="Enter your username"
+            ref={register}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            name="email"
+            className="form-control"
+            type="email"
+            placeholder="Enter your email"
+            ref={register}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            className="form-control"
+            type="password"
+            placeholder="Enter your password"
+            ref={register}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password2">Confirm Password</label>
+          <input
+            name="password2"
+            className="form-control"
+            type="password"
+            placeholder="Enter confirm password"
+            ref={register}
+          />
+        </div>
+        <button className="btn btn-primary">Register</button>
+      </form>
       <Link to="/login">
-        <Button variant="secondary">Back To Login</Button>
+        <button className="btn btn-secondary">Already Member?</button>
       </Link>
     </div>
   );
