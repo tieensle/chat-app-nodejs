@@ -1,20 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 // import "./Auth.css";
 import Header from "../layout/Header";
 import { authLogin } from "../../api/auth.js";
 
 const Login = (props) => {
+  const [errors, setError] = useState("");
+  const history = useHistory();
   const { handleSubmit, register } = useForm();
-  const onSubmitLogin = async (data) => {
-    const token = await authLogin(data);
+  const handleError = () => {};
+  const handleSubmitLogin = async (data, event) => {
+    try {
+      const res = await authLogin(data);
+      if (res.success) {
+        console.log(localStorage.getItem("currentUser"));
+        //TODO: HANDLE REDIRECT TO CHAT SCREEN
+      } else {
+        const err = Object.values(res);
+        console.log(err);
+        throw new Error(err);
+      }
+    } catch (error) {
+      console.log(typeof error.message);
+      setError(error.message);
+    }
   };
   return (
     <div>
       <Header />
-      <form className="login-form" onSubmit={handleSubmit(onSubmitLogin)}>
+      {/* {error ? <h3 className="error">{error}</h3> : null} */}
+      {errors ? <div className="h4 text-danger">{errors}</div> : null}
+      <form className="login-form" onSubmit={handleSubmit(handleSubmitLogin)}>
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input

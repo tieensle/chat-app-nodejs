@@ -1,17 +1,34 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import io from "socket.io-client";
 import { Form, Button } from "react-bootstrap";
 import Header from "../layout/Header";
+import { authRegister } from "../../api/auth";
 const Register = (props) => {
-  const { handleSubmit, register } = useForm();
-  const onSubmitRegister = (data) => {
-    console.log(data);
+  const [error, setError] = useState("");
+  const history = useHistory();
+  const { handleSubmit, register, errors } = useForm();
+  const onSubmitRegister = async (data) => {
+    try {
+      const res = await authRegister(data);
+      if (res.success) {
+        console.log(res.token);
+        //TODO: HANDLE REDIRECT TO LOGIN
+      } else {
+        console.log(res);
+        const errors = Object.values(res);
+        throw new Error(errors);
+        // const error = res.name || res.email || res.password || res.password2;
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
   return (
     <div>
       <Header />
+      {error ? <div className="h3 text-danger">{error}</div> : null}
       <form className="register-form" onSubmit={handleSubmit(onSubmitRegister)}>
         <div className="form-group">
           <label htmlFor="name">Username</label>

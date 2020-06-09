@@ -5,26 +5,23 @@ const currentUser = () => {
 };
 
 const authRegister = async (data) => {
-  const { token } = await fetch(`${url}/api/users/register`, {
+  console.log(JSON.stringify(data));
+  const response = await fetch(`${url}/api/users/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      data,
-    }),
+    body: JSON.stringify(data),
   })
     .then((res) => res.json())
     .catch((error) => {
       console.log(error);
     });
-  console.log(token);
+  return response;
 };
 
 const authLogin = async (data) => {
-  const { email, password } = data;
-  console.log(JSON.stringify(data));
-  const token = await fetch(`${url}/api/users/login`, {
+  const response = await fetch(`${url}/api/users/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -33,11 +30,11 @@ const authLogin = async (data) => {
   })
     .then((res) => res.json())
     .then((data) => {
-      localStorage.setItem("currentUser", data.token.split(" ")[1]);
-      console.log(localStorage.getItem("currentUser"));
-      console.log(localStorage);
+      localStorage.setItem("currentUser", data.token);
+      return data;
     })
     .catch((error) => console.log(error));
+  return response;
 };
 
 export { authLogin, authRegister, currentUser };

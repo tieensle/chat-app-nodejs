@@ -14,9 +14,13 @@ const validateLoginInput = require("../../validation/login.js");
 
 const User = require("../../models/Users.js");
 
+router.get("/", (req, res) => {
+  console.log("verify here");
+  //TODO: VERIFY HERE
+});
+
 router.post("/register", (req, res) => {
   const { name, email, password, password2 } = req.body;
-  console.log(req.body);
   const { errors, isValid } = validateRegisterInput(req.body);
   if (!isValid) {
     return res.status(404).json(errors);
@@ -38,7 +42,27 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then((user) => res.json(user))
+            .then(() => {
+              // (user) => res.json(user);
+              //TODO: send to client
+              const payload = {
+                id: newUser.id,
+                name: newUser.name,
+              };
+              jwt.sign(
+                payload,
+                process.env.secretOrKey,
+                {
+                  expiresIn: 31556926,
+                },
+                (err, token) => {
+                  res.json({
+                    success: true,
+                    token: "Bearer " + token,
+                  });
+                }
+              );
+            })
             .catch((err) => console.log(err));
         });
       });
