@@ -5,6 +5,8 @@ import io from "socket.io-client";
 import { Form, Button } from "react-bootstrap";
 import Header from "../layout/Header";
 import { authRegister } from "../../api/auth";
+
+import History from "../../utils/history.js";
 const Register = (props) => {
   const [error, setError] = useState("");
   const history = useHistory();
@@ -14,7 +16,9 @@ const Register = (props) => {
       const res = await authRegister(data);
       if (res.success) {
         console.log(res.token);
-        //TODO: HANDLE REDIRECT TO LOGIN
+        alert("Register success!");
+        History.push("/login");
+        window.location.reload();
       } else {
         console.log(res);
         const errors = Object.values(res);

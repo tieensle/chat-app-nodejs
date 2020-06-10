@@ -5,6 +5,7 @@ import { Form, Button } from "react-bootstrap";
 // import "./Auth.css";
 import Header from "../layout/Header";
 import { authLogin } from "../../api/auth.js";
+import History from "../../utils/history.js";
 
 const Login = (props) => {
   const [errors, setError] = useState("");
@@ -16,14 +17,15 @@ const Login = (props) => {
       const res = await authLogin(data);
       if (res.success) {
         console.log(localStorage.getItem("currentUser"));
-        //TODO: HANDLE REDIRECT TO CHAT SCREEN
+        alert("Login success!");
+        History.push("/chat");
+        console.log(History);
+        window.location.reload();
       } else {
         const err = Object.values(res);
-        console.log(err);
         throw new Error(err);
       }
     } catch (error) {
-      console.log(typeof error.message);
       setError(error.message);
     }
   };

@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "create-react-app": "^3.4.1",
     "dotenv": "^8.2.0",
+    "history": "^4.10.1",
     "is-promise": "^4.0.0",
     "jwt-decode": "^2.2.0",
     "react": "^16.13.1",
