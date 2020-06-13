@@ -1,27 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 // import "./Auth.css";
 import Header from "../layout/Header";
 import { authLogin } from "../../api/auth.js";
 import History from "../../utils/history.js";
+import handleResponse from "../../utils/handleResponse.js";
+
+import { currentUserValue } from "../../api/auth";
+
+import getUser from "../../api/getUser";
+import setAuthHeader from "../../utils/setAuthHeader";
 
 const Login = (props) => {
+  // console.log("here");
   const [errors, setError] = useState("");
-  const history = useHistory();
   const { handleSubmit, register } = useForm();
   const handleError = () => {};
-  const handleSubmitLogin = async (data, event) => {
+  const handleSubmitLogin = async (data) => {
     try {
       const res = await authLogin(data);
       if (res.success) {
-        console.log(localStorage.getItem("currentUser"));
-        alert("Login success!");
+        // alert("Login success!");
         History.push("/chat");
-        console.log(History);
+        // const { from } = History.location.state || {
+        //   from: { pathname: "/chat" },
+        // };
+        // History.push(from);
+        // console.log(localStorage.getItem("currentUser"));
+        // const test = getUser();
+        // console.log(test);
         window.location.reload();
       } else {
+        //TODO: SHOW ERROR BETTER
         const err = Object.values(res);
         throw new Error(err);
       }
@@ -29,6 +41,13 @@ const Login = (props) => {
       setError(error.message);
     }
   };
+
+  // useEffect(() => {
+  //   if (currentUserValue) {
+  //     History.push("/chat");
+  //   }
+  // }, []);
+
   return (
     <div>
       <Header />

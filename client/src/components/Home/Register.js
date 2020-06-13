@@ -17,10 +17,10 @@ const Register = (props) => {
       if (res.success) {
         console.log(res.token);
         alert("Register success!");
-        History.push("/login");
-        window.location.reload();
+        History.push("/chat");
+        // window.location.reload();
       } else {
-        console.log(res);
+        //TODO: SHOW ERROR BETTER
         const errors = Object.values(res);
         throw new Error(errors);
         // const error = res.name || res.email || res.password || res.password2;

@@ -14,9 +14,19 @@ const validateLoginInput = require("../../validation/login.js");
 
 const User = require("../../models/Users.js");
 
+const verify = require("../../utils/verify-token");
+
 router.get("/", (req, res) => {
   console.log("verify here");
+  console.log(req.headers.authorization);
   //TODO: VERIFY HERE
+  try {
+    const jwtUser = jwt.verify(verify(req), process.env.secretOrKey);
+    console.log(jwtUser);
+    return res.json(jwtUser);
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 router.post("/register", (req, res) => {

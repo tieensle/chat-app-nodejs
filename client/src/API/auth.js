@@ -1,6 +1,8 @@
+import handleResponse from "../utils/handleResponse.js";
+
 const url = "http://localhost:1337";
 
-const currentUser = () => {
+const currentUserValue = () => {
   return localStorage.getItem("currentUser");
 };
 
@@ -13,7 +15,7 @@ const authRegister = async (data) => {
     },
     body: JSON.stringify(data),
   })
-    .then((res) => res.json())
+    .then(handleResponse)
     .catch((error) => {
       console.log(error);
     });
@@ -28,7 +30,7 @@ const authLogin = async (data) => {
     },
     body: JSON.stringify(data),
   })
-    .then((res) => res.json())
+    .then(handleResponse)
     .then((data) => {
       localStorage.setItem("currentUser", data.token);
       return data;
@@ -37,4 +39,8 @@ const authLogin = async (data) => {
   return response;
 };
 
-export { authLogin, authRegister, currentUser };
+const logout = () => {
+  localStorage.removeItem("currentUser");
+};
+
+export { authLogin, authRegister, currentUserValue, logout };
